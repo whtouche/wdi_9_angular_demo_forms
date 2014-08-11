@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+  </head>
+
+  <body ng-app="myapp">
+
+    <div ng-controller="MyController" >
+      <form>
+        <!-- Bind the input field to the myForm.firstName -->
+        <input type="text" name="firstName" ng-model="myForm.firstName"> First name <br/>
+        <!-- Bind the input field to the myForm.lastName -->
+        <input type="text" name="lastName"  ng-model="myForm.lastName"> Last name <br/>
+      </form>
+
+      <div>
+        <!-- Just show the models/properties bound to the input field -->
+        {{myForm.firstName}} {{myForm.lastName}}
+      </div>
+    </div>
+
+    <script>
+      angular.module("myapp", [])
+      .controller("MyController", function($scope) {
+      $scope.myForm = {};
+      // init the name
+      $scope.myForm.firstName = "Jakob";
+      $scope.myForm.lastName  = "Jenkov";
+      } );
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+  </head>
+
+  <body ng-app="myapp">
+
+    <div ng-controller="MyController" >
+      <form>
+        <input type="text" name="firstName" ng-model="myForm.firstName"> First name <br/>
+        <input type="text" name="lastName"  ng-model="myForm.lastName"> Last name <br/>
+        Sign Aggreement: <input type="checkbox" ng-model="myForm.signedAgreement">
+        <br/>
+        Wants to receive the newsletter: <input type="checkbox" ng-model="myForm.wantNewsletter" ng-true-value="yes" ng-false-value="no" >
+        <br/>
+
+        <fieldset>
+          <legend>Newsletter</legend>
+          <!-- Bind all radio buttons to the same model -->
+          Daily <input type="radio" ng-model="myForm.whichNewsletter" value="dailyNews">
+          <br/>
+          Weekly <input type="radio" ng-model="myForm.whichNewsletter" value="weeklyNews">
+          <br/>
+          Monthly <input type="radio" ng-model="myForm.whichNewsletter" value="monthlyNews">
+          <br/>
+        </fieldset>
+
+        <label for="car-model" >Select Car Make</label>
+        <!-- Simply enumerate all the select options -->
+        <select id="car-model" ng-model="myForm.car">
+          <option value="nissan">Nissan</option>
+          <option value="toyota">Toyota</option>
+          <option value="fiat">Fiat</option>
+        </select>
+      </form>
+
+      <hr/>
+      <div>
+        <!-- Just show the models/properties bound to the input field -->
+        <p>Name: {{myForm.firstName}} {{myForm.lastName}}</p>
+        <p>Signed Aggreement: {{myForm.signedAgreement}}
+        <p>Wants Newsletter: {{myForm.wantNewsletter}}
+        <p>Which Newsletter: {{myForm.whichNewsletter}}
+        <p>Selected Car: {{myForm.car}}
+
+      </div>
+    </div>
+
+    <script>
+      angular.module("myapp", [])
+      .controller("MyController", function($scope) {
+      $scope.myForm = {};
+      // init the name
+      $scope.myForm.firstName = "Jakob";
+      $scope.myForm.lastName  = "Jenkov";
+
+      // not signed by default
+      $scope.myForm.signedAgreement  = false;
+
+      // wants news letter is 'yes' by default
+      $scope.myForm.wantNewsletter = 'yes';
+
+
+      // which news letter.
+      $scope.myForm.whichNewsletter = 'weeklyNews';
+
+      // selected car is 'nissan' by default
+      $scope.myForm.car = 'nissan';
+
+      } );
+    </script>
+
+  </body>
+</html>
