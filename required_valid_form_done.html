@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+  </head>
+
+  <body ng-app="myapp">
+
+    <div ng-controller="MyController" >
+      <form>
+        <!-- Angular will check for the HTML5 required attribute, or you can use ng-required -->
+        <input type="text" name="firstName" ng-model="myForm.firstName" ng-minlength="2" ng-maxlength="15" required > First name <br/>
+        <input type="text" name="lastName"  ng-model="myForm.lastName" ng-minlength="4" ng-maxlength="10" ng-required> Last name <br/>
+
+        <!-- Age must have 1 to 3 digits -->
+        <!-- The min and max are just HTML, not angular -->
+        <input type="number" name="age"  ng-model="myForm.age" ng-pattern="/^\d{1,3}$/" min=1 max=115>Age<br/>
+        <br/>
+
+        Sign Aggreement: <input type="checkbox" ng-model="myForm.signedAgreement">
+        <br/>
+        Wants to receive the newsletter: <input type="checkbox" ng-model="myForm.wantNewsletter" ng-true-value="yes" ng-false-value="no" >
+        <br/>
+
+        <fieldset>
+          <legend>Newsletter</legend>
+          <!-- Bind all radio buttons to the same model -->
+          Daily <input type="radio" ng-model="myForm.whichNewsletter" value="dailyNews">
+          <br/>
+          Weekly <input type="radio" ng-model="myForm.whichNewsletter" value="weeklyNews">
+          <br/>
+          Monthly <input type="radio" ng-model="myForm.whichNewsletter" value="monthlyNews">
+          <br/>
+        </fieldset>
+
+        <label for="car-model" >Select Car Make</label>
+
+        <!-- ng-options -->
+        <!-- The format of the ng-options is -->
+        <!-- <<option binding expression >> <<datasource expression >>  -->
+        <!-- <<obj.id as obj.name>> <<for obj in myForm.options>> -->
+        <select id="car-model" ng-model="myForm.car" ng-options="obj.id as obj.name for obj in myForm.options" >
+        </select>
+      </form>
+
+      <hr/>
+      <div>
+        <!-- Just show the models/properties bound to the input field -->
+        <p>Name: {{myForm.firstName}} {{myForm.lastName}}</p>
+        <p>Age: {{myForm.age}}</p>
+        <p>Signed Aggreement: {{myForm.signedAgreement}}
+        <p>Wants Newsletter: {{myForm.wantNewsletter}}
+        <p>Which Newsletter: {{myForm.whichNewsletter}}
+        <p>Selected Car: {{myForm.car}}
+
+      </div>
+    </div>
+
+    <script>
+      angular.module("myapp", [])
+      .controller("MyController", function($scope) {
+      $scope.myForm = {};
+      // init the name
+      $scope.myForm.firstName = "Jakob";
+      $scope.myForm.lastName  = "Jenkov";
+      $scope.myForm.age = 33;
+
+      // not signed by default
+      $scope.myForm.signedAgreement  = false;
+
+      // wants news letter is 'yes' by default
+      $scope.myForm.wantNewsletter = 'yes';
+
+
+      // which news letter.
+      $scope.myForm.whichNewsletter = 'weeklyNews';
+
+      // selected car is 'nissan' by default
+      $scope.myForm.car = 'nissan';
+
+      $scope.myForm.options = [
+      { id : "nissan", name: "Nissan" },
+      { id : "toyota", name: "Toyota" },
+      { id : "fiat"  , name: "Fiat" }
+      ];
+
+      } );
+    </script>
+
+  </body>
+</html>
