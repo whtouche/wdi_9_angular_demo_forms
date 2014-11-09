@@ -1,0 +1,95 @@
+<!-- http://tutorials.jenkov.com/angularjs/forms.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+
+    <style>
+    .fieldValid {
+        border: 5px solid green;
+    }
+    .fieldInvalid {
+        border: 5px solid red;
+    }
+    </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+    </head>
+
+    <body ng-app="myapp">
+
+    <div ng-controller="MyController" >
+        <form name="myFormNg">
+            <!-- ng-minlength and ng-maxlength: output won't show up in binding if not within range -->
+            <input type="text" name="firstName" ng-model="myForm.firstName" ng-minlength="3" ng-maxlength="12" ng-required ng-class="myForm.getFormFieldCssClass(myFormNg.firstName)">
+            First name
+            <br/>
+            <input type="text" name="lastName"  ng-model="myForm.lastName" ng-minlength="5" ng-maxlength="12" ng-required ng-class="myForm.getFormFieldCssClass(myFormNg.lastName)">
+            Last name
+            <br/>
+
+            <!-- '~': beggining of the string
+            '\d': digit
+            '+': 1 or more
+            '$': end of string
+            One or more digits from the first character of the string to the last character of the string -->
+            <input type="number" id="age" ng-model="myForm.age" ng-pattern="/^\d+$/" min=1 max=115> Age <br/>
+        </form>
+
+        <div>
+            {{myForm.firstName}} {{myForm.lastName}} is {{myForm.age}} years old and drives a {{myForm.car}}.
+        </div>
+        <br/>
+        <div>
+        <input type="checkbox" ng-model="myForm.wantNewsletter" ng-true-value="yes" ng-false-value="no" >
+        Want Newsletter: {{myForm.wantNewsletter}}
+        </div>
+
+        <div ng-show="myForm.wantNewsletter">
+        <input type="radio" ng-model="myForm.whichNewsletter" value="weeklyNews">
+        Weekly Newsletter
+        <br/>
+        <input type="radio" ng-model="myForm.whichNewsletter" value="monthlyNews">
+        Monthly Newsletter
+        <br/>
+        {{myForm.whichNewsletter}}
+        </div>
+
+        <form>
+        <select ng-model="myForm.car" ng-options="obj.id as obj.name group by obj.type for obj in myForm.options">
+        <option value="">Please choose a car</option>
+        </select>
+    </form>
+
+    </div>
+
+    <script>
+        angular.module("myapp", [])
+                .controller("MyController", function($scope) {
+                    $scope.myForm = {};
+                    $scope.myForm.firstName = "";
+                    $scope.myForm.lastName  = "";
+                    $scope.myForm.wantNewsletter = 'no';
+                    $scope.myForm.car = "";
+                    $scope.myForm.age = 30;
+
+                    $scope.myForm.options = [
+                      { id: "nissan", name: "Nissan", type: "foreign" },
+                      { id: "toyota", name: "Toyota", type: "foreign" },
+                      { id: "fiat", name: "Fiat", type: "foreign" },
+                      { id: "ford", name: "Ford", type: "domestic"},
+                      { id: "chevy", name: "Chevy", type: "domestic"}
+                     ];
+
+                    $scope.myForm.getFormFieldCssClass = function(ngModelController) {
+                    //console.log("getting css class: " + ngModelController.$valid) ;
+                    //If the input field has NOT been changed, it's pristine, set value to ""
+                    if(ngModelController.$pristine) return "";
+                    //If the input field is valid then set the class to "fieldValid"
+                    //If the input field is invalid then set the class to "fieldInvalid"
+                    return ngModelController.$valid ? "fieldValid" : "fieldInvalid";
+                };
+
+                } );
+    </script>
+
+    </body>
+</html>
